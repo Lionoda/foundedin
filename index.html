@@ -54,11 +54,11 @@
 
       var popup = new mapboxgl.Popup({ offset: [0, -15] })
         .setLngLat(feature.geometry.coordinates)
-        .setHTML('<h3>' + feature.properties.name + '</h3><p>' + feature.properties.year + '</p>')
+        .setHTML('<h3>' + feature.properties.name + '</h3><p>' + feature.properties.founded_in + '</p>')
         .setLngLat(feature.geometry.coordinates)
         .addTo(map);
     });
-    
+
     </script>
   </body>
 </html>
