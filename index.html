@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Founded.in</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='map'></div>
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3RlcHJpIiwiYSI6ImNpdmpiNzJ0azAwNmQyenBrdTk2cm80bW0ifQ.vl2ysL9DO6QkWi-GX8Z3aQ';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/stepri/cjeq2uty40jc82so3cd8f6vuv',
+      hash: true,
+      center: [52.510872,6.08956]
+    });
+
+    var nav = new mapboxgl.NavigationControl();
+    map.addControl(nav, 'top-left');
+    map.addControl(new mapboxgl.FullscreenControl());
+    map.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    }));
+
+    map.on('click', function(e) {
+      var features = map.queryRenderedFeatures(e.point, {
+        layers: ['foundedin']
+      });
+
+      if (!features.length) {
+        return;
+      }
+
+      var feature = features[0];
+
+      var popup = new mapboxgl.Popup({ offset: [0, -15] })
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML('<h3>' + feature.properties.name + '</h3><p>' + feature.properties.year + '</p>')
+        .setLngLat(feature.geometry.coordinates)
+        .addTo(map);
+    });
+    
+    </script>
+  </body>
+</html>
